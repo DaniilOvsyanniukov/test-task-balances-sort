@@ -255,6 +255,7 @@ const AssetBalances = ({ balanceData, walletType }) => {
      *
      */
     useEffect(() => {
+        console.log("balanceData", balanceData)
         if (balanceData) {
             setSortedBalanceData(
                 Object.keys(balanceData).sort((a, b) => {
@@ -363,7 +364,7 @@ const AssetBalances = ({ balanceData, walletType }) => {
                                     </div>
                                 </div>
 
-                                {Object.keys(balanceData)
+                                {/* {Object.keys(balanceData)
                                     .sort((a, b) => {
                                         const prev = (sorting.prop === 'name') ? { ...balanceData[b], name: b } : balanceData[a];
                                         const next = (sorting.prop === 'name') ? { ...balanceData[a], name: a } : balanceData[b];
@@ -373,6 +374,40 @@ const AssetBalances = ({ balanceData, walletType }) => {
                                                 SORTING_FUNCTIONS.descending(prev, next, sorting.prop) :
                                                 SORTING_FUNCTIONS.ascending(prev, next, sorting.prop)
                                         )
+                                    })
+                                    .map((x, index) => {
+                                        return (
+                                            <List
+                                                key={index}
+                                                id={x}
+                                                // icon={all_icon[x]}
+                                                walletType={walletType}
+                                                balanceData={balanceData[x]}
+                                                setCurrencyId={setCurrencyId}
+                                                openDeposit={openDeposit}
+                                                openWithdrawModal={openWithdrawModal}
+                                                setVisibleTransfer={setVisibleTransfer}
+                                                setVisibleHistory={setVisibleHistory}
+                                            />
+                                        )
+                                    })
+                                } */}
+                                {Object.keys(balanceData)
+                                    .sort((a, b) => {
+                                        const nameA = a;
+                                        const nameB = b;
+                                        const prev = (sorting.prop === 'name') ? { ...balanceData[b], name: b } : balanceData[a];
+                                        const next = (sorting.prop === 'name') ? { ...balanceData[a], name: a } : balanceData[b];
+
+                                        const compareResult = (sorting.descending) ?
+                                            SORTING_FUNCTIONS.descending(prev, next, sorting.prop) :
+                                            SORTING_FUNCTIONS.ascending(prev, next, sorting.prop);
+
+                                        if (compareResult === 0) {
+                                            return SORTING_FUNCTIONS.ascending({ name: nameA }, { name: nameB }, 'name');
+                                        }
+
+                                        return compareResult;
                                     })
                                     .map((x, index) => {
                                         return (
